@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: USERSERVICE
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/user_service?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+    username: 'root'
+    password: 'root'
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: 'org.hibernate.dialect.MySQL5InnoDBDialect'
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  build:
+    artifact: @project.artifactId@
+    java-version: @java.version@
+  app:
+    name: 'USER-SERVICE'
+    description: 'This is custom info endpoint'
+    author: 'Pavlo Khodachok'
+
+
+

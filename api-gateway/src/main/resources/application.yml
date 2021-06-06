@@ -1,0 +1,70 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CARD-SERVICE
+          uri: lb://CARDSERVICE
+          predicates:
+            - Path=/api/v1/cards/**
+          filters:
+             - name: CircuitBreaker
+               args:
+                  name: CARDSERVICE
+                  fallbackuri: forward:/cardServiceFallBack
+        - id: USER-SERVICE
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: USERSERVICE
+                fallbackuri: forward:/userServiceFallBack
+        - id: PAYMENTSERVICE
+          uri: lb://PAYMENTSERVICE
+          predicates:
+            - Path=/api/v1/payments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PAYMENTSERVICE
+                fallbackuri: forward:/paymentServiceFallBack
+        - id: NOTIFICATIONSERVICE
+          uri: lb://NOTIFICATIONSERVICE
+          predicates:
+            - Path=/notifications/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: NOTIFICATIONSERVICE
+                fallbackuri: forward:/notificationServiceFallBack
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  build:
+    artifact: @project.artifactId@
+    java-version: @java.version@
+  app:
+    name: 'API-GATEWAY'
+    description: 'This is custom info endpoint'
+    author: 'Pavlo Khodachok'

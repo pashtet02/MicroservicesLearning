@@ -1,0 +1,11 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: CONFIG-SERVER
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/pashtet02/config-server
+          clone-on-start: true
