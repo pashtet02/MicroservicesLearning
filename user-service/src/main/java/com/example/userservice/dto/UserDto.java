@@ -47,6 +47,9 @@ public class UserDto {
 
     private Set<Role> roles;
 
+    @NotBlank( message = "phone number cannot be empty")
+    private String phoneNumber;
+
     private String firstName;
     private String lastName;
     private boolean active;

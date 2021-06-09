@@ -51,7 +51,7 @@ public class CardController {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/{cardId}")
+    @PatchMapping(value = "/{cardId}")
     public CardModel updateCard(@PathVariable Long cardId, @RequestBody CardDto cardDto) {
         log.info("Update card by cardId: {} card: {}", cardId, cardDto);
         CardDto card = cardService.updateCard(cardId, cardDto);

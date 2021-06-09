@@ -20,6 +20,8 @@ public class Card {
 
     private Long userId;
 
+    private String phoneNumber;
+
     private String userFirstName;
 
     private String userSecondName;

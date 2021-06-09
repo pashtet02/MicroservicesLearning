@@ -9,6 +9,10 @@ import com.example.paymentservice.service.PaymentService;
 import com.example.paymentservice.vo.Card;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,6 +30,19 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto savePayment(PaymentDto paymentDto) {
         var payment = PaymentMapper.INSTANCE.toPayment(paymentDto);
         payment.setId(0);
+
+        ResponseEntity<Card> senderCard = restTemplate.exchange("http://CARDSERVICE/api/v1/cards?cardId="
+                + payment.getRecipientCardId(),
+                HttpMethod.GET,
+                null, new ParameterizedTypeReference<Card>() {
+        });
+        if (senderCard.getStatusCode() == HttpStatus.NOT_FOUND){
+            log.error("EXCEPTION");
+            throw new CardNotFoundException("wrong sender card id!!!");
+        }
+
+
+
         payment = paymentRepository.save(payment);
         log.info("save payment {}", payment);
         return PaymentMapper.INSTANCE.toPaymentDto(payment);

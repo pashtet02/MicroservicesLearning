@@ -1,0 +1,38 @@
+twilio:
+  account_sid: ACcdb1c27fdb184f8f153d25dc524ba6fd
+  auth_token: e9037d28c3e0ff1cd5e8714fcfcabf9c
+  trial_number: +14243476744
+server:
+  port: 8086
+spring:
+  application:
+    name: NOTIFICATIONSERVICE
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/payment_service?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+    username: 'root'
+    password: 'root'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: 'org.hibernate.dialect.MySQL5InnoDBDialect'
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  build:
+    artifact: @project.artifactId@
+    java-version: @java.version@
+  app:
+    name: 'NOTIFICATION-SERVICE'
+    description: 'This is custom info endpoint'
+    author: 'Pavlo Khodachok'
+

@@ -8,6 +8,7 @@ import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.Card;
 import com.example.userservice.vo.ResponseTemplateVO;
+import com.example.userservice.vo.SmsRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -58,8 +59,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        User user = UserMapper.INSTANCE.toUser(userDto);
+        var user = UserMapper.INSTANCE.toUser(userDto);
         user.setId(0);
+
         String encryptedPass = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPass);
         user = userRepository.save(user);
@@ -85,14 +87,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String username) {
         log.debug("deleteUser() by username {}", username);
-        User user = userRepository.findByUsername(username)
+        var user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
         userRepository.delete(user);
     }
 
     @Override
     public ResponseTemplateVO getUserWithCards(Long userId) {
-        ResponseTemplateVO vo = new ResponseTemplateVO();
+        var vo = new ResponseTemplateVO();
         var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         log.info("get User from db by id: {}", user);
 

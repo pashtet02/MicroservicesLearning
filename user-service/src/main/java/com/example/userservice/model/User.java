@@ -22,11 +22,15 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String phoneNumber;
+
     private String password;
 
     private String firstName;
     private String lastName;
     private Boolean locked = false;
     private Boolean enabled = true;
+
 }
 
